@@ -10,6 +10,8 @@ class Motion(object):
         self.platforms = platforms
         self.rect = sprite.rect
         self.sprite = sprite
+        self.collide_x = False
+        self.collide_y = False
 
     def update(self):
         self.rect.left += self.vel.x
@@ -51,6 +53,16 @@ class Motion(object):
                     self.rect.top = p.rect.bottom
                     self.collide_y = True
                     self.collide_x = False
+
+    def set_direction(self, dir):
+        switcher = {
+            -1: self.move_left,
+            1: self.move_right,
+            -2: self.move_up,
+            2: self.move_down
+        }
+        func = switcher.get(dir, lambda: 'Invalid')
+        func()
 
     def move_left(self):
         self.dir = -1

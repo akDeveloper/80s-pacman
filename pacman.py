@@ -1,9 +1,7 @@
 from pygame.sprite import Sprite
-from pygame import Surface
-from pygame import SRCALPHA
-from pygame import gfxdraw
 from entity import Entity
 from motion import Motion
+from factory.pacman_image_factory import PacmanImageFactory
 
 
 class Pacman(Sprite):
@@ -14,22 +12,23 @@ class Pacman(Sprite):
         self.col = Entity(self.rect.x+2, self.rect.y+2, 8, 8, (255, 0, 0))
         self.speed = 2
         self.motion = Motion(self.col, self.speed, platforms)
+        self.motion.move_left()
 
     def update(self):
         self.motion.update()
         self.rect.center = self.col.rect.center
 
     def move_left(self):
-        self.motion.move_left()
+        self.motion.set_direction(-1)
 
     def move_right(self):
-        self.motion.move_right()
+        self.motion.set_direction(1)
 
     def move_up(self):
-        self.motion.move_up()
+        self.motion.set_direction(-2)
 
     def move_down(self):
-        self.motion.move_down()
+        self.motion.set_direction(2)
 
     def reset_x(self):
         self.motion.reset_x()
@@ -38,7 +37,6 @@ class Pacman(Sprite):
         self.motion.reset_y()
 
     def __draw_sprite(self):
-        yellow = (255, 255, 0)
-        self.image = Surface((13, 13), SRCALPHA)
-        gfxdraw.aacircle(self.image, 6, 6, 5, yellow)
-        gfxdraw.filled_circle(self.image, 6, 6, 5, yellow)
+        f = PacmanImageFactory()
+        f.create()
+        self.image = f.get_image(0)

@@ -17,7 +17,7 @@ class Game:
         self.screen = pygame.display.set_mode(self.screen_size)
         self.sprites = Group()
         self.builder = LevelBuilder(
-            "resources/levels/level1-layers.json",
+            "resources/levels/level1.json",
             (self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
         )
         self.builder.build()
@@ -27,24 +27,25 @@ class Game:
             self.sprites
         )
 
-        Blinky(self.sprites)
+        self.blinky = Blinky(self.player, self.builder.get_platforms(), self.sprites)
 
-    def update(self):
+    def update(self, time):
         self.player.update()
+        self.blinky.update(time)
 
     def render(self):
         # Create surface for handling graphics
         surface = Surface((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
         # Draw sprites to surface
-        self.builder.get_platforms().draw(surface)
+        # self.builder.get_platforms().draw(surface)
         # self.builder.get_images().draw(surface)
         surface.blit(self.builder.get_background(), (0, 0))
         self.sprites.draw(surface)
 
         # Copy surface to screen surface
         pygame.transform.scale(surface, self.screen_size, self.screen)
-        self.screen.convert()
-        pygame.display.update()
+        # self.screen.convert()
+        pygame.display.flip()
 
     def stop(self):
         self.running = False

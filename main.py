@@ -15,8 +15,8 @@ class App(GameEvent):
     def on_init(self):
         pygame.init()
 
-    def on_loop(self):
-        self.__game.update()
+    def on_loop(self, time):
+        self.__game.update(time)
 
     def on_render(self):
         self.__game.render()
@@ -43,11 +43,11 @@ class App(GameEvent):
         clock = pygame.time.Clock()
 
         while(self.__game.is_running()):
+            clock.tick(self.FPS)
             for event in pygame.event.get():
                 self.on_event(event)
-            self.on_loop()
+            self.on_loop(clock.get_time())
             self.on_render()
-            clock.tick(self.FPS)
         self.on_cleanup()
 
 
