@@ -15,7 +15,6 @@ class Ghost(Entity):
         self.frightened = None
         self.motion = Motion(self, self.get_speed(), platforms)
         self.clock = Clock()
-        self.last_think = 0
 
     def get_name(self):
         raise MethodNotImplemented("Implement `get_name` method")
@@ -25,5 +24,4 @@ class Ghost(Entity):
 
     def update(self, time):
         self.chase.chase()
-        self.last_think = 0
         self.motion.update()
