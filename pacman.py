@@ -3,7 +3,7 @@ from entity import Entity
 from motion import Motion
 from factory.pacman_image_factory import PacmanImageFactory
 from pacman_animator import PacmanAnimator
-from pygame.locals import K_UP, K_DOWN, K_LEFT, K_RIGHT, KEYUP
+from pygame.locals import K_UP, K_DOWN, K_LEFT, K_RIGHT
 
 
 class Pacman(Sprite):

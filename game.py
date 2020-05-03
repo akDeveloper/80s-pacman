@@ -29,7 +29,11 @@ class Game:
             self.sprites
         )
 
-        self.blinky = Blinky(self.player, self.builder.get_platforms(), self.sprites)
+        self.blinky = Blinky(
+            self.player,
+            self.builder.get_platforms(),
+            self.sprites
+        )
 
     def update(self, time):
         self.player.update(get_pressed(), self.event)
@@ -56,29 +60,9 @@ class Game:
 
     def key_down(self, e):
         self.event = e
-        pass
-        '''
-        if e.key == pygame.K_RIGHT:
-            self.player.move_right()
-        if e.key == pygame.K_LEFT:
-            self.player.move_left()
-        if e.key == pygame.K_UP:
-            self.player.move_up()
-        if e.key == pygame.K_DOWN:
-            self.player.move_down()
-        '''
 
     def key_up(self, e):
         self.event = e
-        pass
-        '''
-        if ((e.key == pygame.K_RIGHT) or (e.key == pygame.K_LEFT)) \
-                and self.player.motion.collide_x:
-            self.player.reset_x()
-        if ((e.key == pygame.K_UP) or (e.key == pygame.K_DOWN)) \
-                and self.player.motion.collide_y:
-            self.player.reset_y()
-        '''
 
     def is_running(self):
         return self.running
