@@ -9,6 +9,7 @@ class SpriteSheet(object):
 
     def get_image(self, x, y, width, height):
         image = Surface([width, height]).convert()
+        image.set_colorkey((0,0,0))
         image.blit(self.sprite_sheet, (0, 0), (x, y, width, height))
 
         return image

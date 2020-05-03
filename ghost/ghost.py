@@ -2,7 +2,6 @@ from entity import Entity
 from ghost.method_not_implemented import MethodNotImplemented
 from ghost.state import State
 from motion import Motion
-from pygame.time import Clock
 from pygame.sprite import Sprite
 
 
