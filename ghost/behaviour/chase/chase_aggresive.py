@@ -32,7 +32,7 @@ class ChaseAggresive(ChaseBehaviour):
             self.ghost.motion.set_direction(m.get_direction())
 
     def get_available_motion_tiles(self):
-        r = self.ghost.rect
+        r = self.ghost.col.rect
         motions = []
         motions.append(FutureMove(1, Rect(r.x + 1, r.y, r.width, r.height)))
         motions.append(FutureMove(-1, Rect(r.x - 1, r.y, r.width, r.height)))

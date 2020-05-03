@@ -21,6 +21,9 @@ class Pacman(Sprite):
 
     def update(self, key, e):
         dir = self.motion.dir
+        '''
+        Check user input for direction
+        '''
         if (key[K_UP]):
             dir = -2
         if (key[K_RIGHT]):
@@ -30,6 +33,10 @@ class Pacman(Sprite):
         if (key[K_LEFT]):
             dir = -1
         self.motion.set_direction(dir)
+
+        '''
+        Update pacman position
+        '''
         self.motion.update()
         self.rect.center = self.col.rect.center
 
@@ -46,7 +53,7 @@ class Pacman(Sprite):
             self.motion.reset_dir()
 
         '''
-        Check where pacman is facing to draw sprite
+        Check where pacman is facing and draw sprite image
         '''
         self.motion.check_current_direction()
         self.image = self.animator.next(self.motion.current_dir)
@@ -62,8 +69,3 @@ class Pacman(Sprite):
 
     def move_down(self):
         self.motion.set_direction(2)
-
-    def __draw_sprite(self):
-        f = PacmanImageFactory()
-        f.create()
-        self.image = f.get_image(0)

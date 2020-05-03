@@ -1,12 +1,12 @@
-class PacmanAnimator(object):
+class BlinkyAnimator(object):
     def __init__(self, factory):
         self.factory = factory
         self.s = {
             0: [0],
-            1: [0, 1, 2],
-            -1: [0, 3, 4],
-            -2: [0, 5, 6],
-            2: [0, 7, 8]
+            1: [1, 2],
+            -1: [3, 4],
+            -2: [5, 6],
+            2: [7, 8]
         }
         self.tick = 0
         self.index = 0
