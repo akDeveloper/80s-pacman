@@ -4,6 +4,7 @@ from pacman import Pacman
 from level_builder import LevelBuilder
 from ghost.blinky import Blinky
 from pygame import Surface
+from pygame.key import get_pressed
 
 
 class Game:
@@ -13,6 +14,7 @@ class Game:
 
     def __init__(self):
         self.running = True
+        self.event = None
         self.screen_size = (self.SCREEN_WIDTH * 2, self.SCREEN_HEIGHT * 2)
         self.screen = pygame.display.set_mode(self.screen_size)
         self.sprites = Group()
@@ -30,16 +32,18 @@ class Game:
         self.blinky = Blinky(self.player, self.builder.get_platforms(), self.sprites)
 
     def update(self, time):
-        self.player.update()
+        self.player.update(get_pressed(), self.event)
         self.blinky.update(time)
 
     def render(self):
         # Create surface for handling graphics
         surface = Surface((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
-        # Draw sprites to surface
+        # Draw helper platforms
         # self.builder.get_platforms().draw(surface)
-        # self.builder.get_images().draw(surface)
+
+        # Draw background to surface
         surface.blit(self.builder.get_background(), (0, 0))
+        # Draw sprites to surface
         self.sprites.draw(surface)
 
         # Copy surface to screen surface
@@ -51,6 +55,9 @@ class Game:
         self.running = False
 
     def key_down(self, e):
+        self.event = e
+        pass
+        '''
         if e.key == pygame.K_RIGHT:
             self.player.move_right()
         if e.key == pygame.K_LEFT:
@@ -59,14 +66,19 @@ class Game:
             self.player.move_up()
         if e.key == pygame.K_DOWN:
             self.player.move_down()
+        '''
 
     def key_up(self, e):
+        self.event = e
+        pass
+        '''
         if ((e.key == pygame.K_RIGHT) or (e.key == pygame.K_LEFT)) \
                 and self.player.motion.collide_x:
             self.player.reset_x()
         if ((e.key == pygame.K_UP) or (e.key == pygame.K_DOWN)) \
                 and self.player.motion.collide_y:
             self.player.reset_y()
+        '''
 
     def is_running(self):
         return self.running

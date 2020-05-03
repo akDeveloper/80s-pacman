@@ -5,7 +5,6 @@ from motion import Motion
 from pygame.time import Clock
 
 
-
 class Ghost(Entity):
     def __init__(self, x, y, w, h, color, platforms, *groups):
         super().__init__(x, y, w, h, color, *groups)

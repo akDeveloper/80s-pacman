@@ -1,7 +1,6 @@
 from ghost.behaviour.chase.future_move import FutureMove
 from ghost.behaviour.chase.chase_behaviour import ChaseBehaviour
 from pygame import Rect
-from pygame.math import Vector2
 
 
 class ChaseAggresive(ChaseBehaviour):
