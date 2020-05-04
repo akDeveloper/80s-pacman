@@ -14,12 +14,12 @@ class PacmanImageFactory(object):
             self.sheet.get_image(33, 1, 13, 13),  # Stand
             self.sheet.get_image(17, 1, 13, 13),  # Right 1
             self.sheet.get_image(1, 1, 13, 13),  # Right 2
-            self.sheet.get_image(18, 17, 13, 13),  # Left 1
-            self.sheet.get_image(2, 17, 13, 13),  # Left 2
+            self.sheet.get_image(17, 17, 13, 13),  # Left 1
+            self.sheet.get_image(1, 17, 13, 13),  # Left 2
             self.sheet.get_image(17, 33, 13, 13),  # Up 1
             self.sheet.get_image(1, 33, 13, 13),  # Up 2
-            self.sheet.get_image(17, 48, 13, 13),  # Down 1
-            self.sheet.get_image(1, 48, 13, 13),  # Down 2
+            self.sheet.get_image(17, 49, 13, 13),  # Down 1
+            self.sheet.get_image(1, 49, 13, 13),  # Down 2
         ]
         for i in images:
             self.images.append(i)

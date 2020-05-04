@@ -10,13 +10,26 @@ class PacmanAnimator(object):
         }
         self.tick = 0
         self.index = 0
+        self.fast = 0
+        self.slow = 1
 
     def next(self, dir):
         self.tick += 1
         s = self.s.get(dir)
-        if self.tick > 2:
-            self.index += 1
-            if self.index > len(s) - 1:
-                self.index = 0
+        index = self.get_next_valid_index(s)
+        time = self.slow
+        if (index == 0):
+            time = self.fast
+        if self.tick > time:
+            self.increase_index(index)
             self.tick = 0
         return self.factory.get_image(s[self.index])
+
+    def get_next_valid_index(self, s):
+        index = self.index + 1
+        if index > len(s) - 1:
+            index = 0
+        return index
+
+    def increase_index(self, index):
+        self.index = index

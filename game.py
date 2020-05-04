@@ -2,7 +2,8 @@ import pygame
 from pygame.sprite import Group
 from pacman import Pacman
 from level_builder import LevelBuilder
-from ghost.blinky import Blinky
+from ghost.blinky.blinky import Blinky
+from ghost.pinky.pinky import Pinky
 from pygame import Surface
 from pygame.key import get_pressed
 

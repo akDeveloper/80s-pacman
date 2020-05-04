@@ -1,15 +1,15 @@
-class BlinkyAnimator(object):
+from ghost.method_not_implemented import MethodNotImplemented
+
+
+class GhostAnimator(object):
     def __init__(self, factory):
         self.factory = factory
-        self.s = {
-            0: [0],
-            1: [1, 2],
-            -1: [3, 4],
-            -2: [5, 6],
-            2: [7, 8]
-        }
         self.tick = 0
         self.index = 0
+        self.s = self.get_sequence()
+
+    def get_sequence(self):
+        raise MethodNotImplemented("Implement `get_sequence` method")
 
     def next(self, dir):
         self.tick += 1

@@ -42,8 +42,8 @@ class Pacman(Sprite):
 
         '''
         Reset velocity and direction when
-        pacman collides for the new input
-        direction
+        pacman collides for the new user
+        input direction
         '''
         if (self.motion.collide_x):
             self.motion.reset_x()
@@ -56,7 +56,8 @@ class Pacman(Sprite):
         Check where pacman is facing and draw sprite image
         '''
         self.motion.check_current_direction()
-        self.image = self.animator.next(self.motion.current_dir)
+        if not self.motion.is_stopped():
+            self.image = self.animator.next(self.motion.current_dir)
 
     def move_left(self):
         self.motion.set_direction(-1)
