@@ -11,7 +11,7 @@ class Blinky(Ghost):
         y = 112
         self.speed = 2
         super().__init__(x,  y, self.COLOR, platforms, *groups)
-        self.chase = ChaseAggresive(self, pacman)
+        self.chase = ChaseAggresive(self, pacman.col.rect)
         self.motion.set_direction(-1)
 
     def get_speed(self):

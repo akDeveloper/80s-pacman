@@ -105,14 +105,12 @@ class Motion(object):
             self.rect.right = 0
 
     def check_current_direction(self):
-        if self.vel.x > 0:
-            self.current_dir = 1
-        elif self.vel.x < 0:
-            self.current_dir = -1
-        elif self.vel.y > 0:
-            self.current_dir = 2
-        elif self.vel.y < 0:
-            self.current_dir = -2
+        if self.delta.x != 0:
+            self.current_dir = self.delta.x / self.speed
+        elif self.delta.y != 0:
+            self.current_dir = (self.delta.y / self.speed) * 2
+        else:
+            self.current_dir = 0
 
     def check_velocity(self):
         if abs(self.dir) == 1 and self.collide_y:

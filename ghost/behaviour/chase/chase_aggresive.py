@@ -1,13 +1,12 @@
 from ghost.behaviour.chase.future_move import FutureMove
 from ghost.behaviour.chase.chase_behaviour import ChaseBehaviour
-from pygame import Rect
 
 
 class ChaseAggresive(ChaseBehaviour):
 
-    def __init__(self, ghost, pacman):
+    def __init__(self, ghost, target):
         self.ghost = ghost
-        self.pacman = pacman
+        self.target = target
 
     def chase(self):
         motions = self.get_available_motion_tiles()
@@ -26,26 +25,32 @@ class ChaseAggresive(ChaseBehaviour):
         return False
 
     def take_decision(self, motions):
-        motions.sort(key=lambda move: move.get_distance(self.pacman.rect))
+        motions.sort(key=lambda move: move.get_distance(self.target))
         if len(motions) > 0:
             m = motions[0]
             self.ghost.motion.set_direction(m.get_direction())
 
     def get_available_motion_tiles(self):
-        r = self.ghost.col.rect
+        rect = self.ghost.col.rect
+        s = 8  # 1 tile
         motions = []
-        motions.append(FutureMove(1, Rect(r.x + 1, r.y, r.width, r.height)))
-        motions.append(FutureMove(-1, Rect(r.x - 1, r.y, r.width, r.height)))
-        motions.append(FutureMove(-2, Rect(r.x, r.y - 1, r.width, r.height)))
-        motions.append(FutureMove(2, Rect(r.x, r.y + 1, r.width, r.height)))
+        motions.append(FutureMove(1, rect.move(s, 0)))
+        motions.append(FutureMove(-1, rect.move(-1 * s, 0)))
+        motions.append(FutureMove(-2, rect.move(0, -1 * s)))
+        motions.append(FutureMove(2, rect.move(0, s)))
         f = []
         for m in motions:
-            if not self.check_collide(m.get_rect()):
+            if not self.collide(m.get_rect()) and \
+                    not self.is_reverse_direction(m):
                 f.append(m)
         return f
 
-    def check_collide(self, new_rect):
+    def collide(self, new_rect):
         for p in self.ghost.motion.platforms:
             if new_rect.colliderect(p.rect):
                 return True
         return False
+
+    def is_reverse_direction(self, future_move):
+        return future_move.get_direction() == \
+                -1 * self.ghost.motion.dir

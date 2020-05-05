@@ -9,11 +9,9 @@ class App(GameEvent):
 
     FPS = 30  # 1/60th of second
 
-    def __init__(self):
-        self.__game = Game()
-
     def on_init(self):
         pygame.init()
+        self.__game = Game()
 
     def on_loop(self, time):
         self.__game.update(time)

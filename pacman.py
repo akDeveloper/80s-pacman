@@ -39,7 +39,11 @@ class Pacman(Sprite):
         '''
         self.motion.update()
         self.rect.center = self.col.rect.center
-
+        '''
+        x = (right / 8)
+        y = (bottom / 8) - 3
+        t = ((y - 1) * 28) + x
+        '''
         '''
         Reset velocity and direction when
         pacman collides for the new user
