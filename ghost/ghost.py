@@ -12,7 +12,7 @@ class Ghost(Sprite):
 
     def __init__(self, x, y, color, platforms, *groups):
         super().__init__(*groups)
-        self.state = State.CHASE
+        self.state = State.SCATTER
         self.chase = None
         self.scatter = None
         self.frightened = None
@@ -31,7 +31,10 @@ class Ghost(Sprite):
         raise MethodNotImplemented("Implement `get_factory` method")
 
     def update(self, time):
-        self.chase.chase()
+        if self.state is State.CHASE:
+            self.chase.chase()
+        elif self.state is State.SCATTER:
+            self.scatter.scatter()
         self.motion.update()
         self.rect.center = self.col.rect.center
         self.motion.check_current_direction()

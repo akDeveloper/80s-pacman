@@ -6,6 +6,7 @@ from ghost.blinky.blinky import Blinky
 from ghost.pinky.pinky import Pinky
 from pygame import Surface
 from pygame.key import get_pressed
+from ghost.ghost_controller import GhostController
 
 
 class Game:
@@ -36,8 +37,11 @@ class Game:
             self.sprites
         )
 
+        self.ghost_controller = GhostController(self.blinky)
+
     def update(self, time):
         self.player.update(get_pressed(), self.event)
+        self.ghost_controller.control(time)
         self.blinky.update(time)
 
     def render(self):

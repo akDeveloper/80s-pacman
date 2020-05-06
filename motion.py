@@ -106,9 +106,9 @@ class Motion(object):
 
     def check_current_direction(self):
         if self.delta.x != 0:
-            self.current_dir = self.delta.x / self.speed
+            self.current_dir = int(self.delta.x / self.speed)
         elif self.delta.y != 0:
-            self.current_dir = (self.delta.y / self.speed) * 2
+            self.current_dir = int((self.delta.y / self.speed) * 2)
         else:
             self.current_dir = 0
 
