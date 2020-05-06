@@ -1,4 +1,5 @@
 from ghost.behaviour.future_move import FutureMove
+from pygame import Rect
 
 
 class TargetLocator(object):
@@ -7,6 +8,10 @@ class TargetLocator(object):
         self.target = target
         self.old_direction = ghost.motion.dir
         self.allow_reverse = allow_reverse
+        self.red_areas = [
+            Rect(88, 112, 48, 8),
+            Rect(88, 208, 48, 8)
+        ]
 
     def get_direction(self):
         motions = self.get_available_motion_tiles()
@@ -26,7 +31,9 @@ class TargetLocator(object):
         return False
 
     def take_decision(self, motions):
-        motions.sort(key=lambda move: move.get_distance(self.target))
+        motions.sort(key=lambda move: move.get_distance())
+        if self.are_distance_equal(motions):
+            motions.sort(key=lambda move: move.priority)
         if len(motions) > 0:
             m = motions[0]
             return m.get_direction()
@@ -36,15 +43,15 @@ class TargetLocator(object):
         rect = self.ghost.col.rect
         s = 8  # 1 tile
         motions = []
-        motions.append(FutureMove(1, rect.move(s, 0)))
-        motions.append(FutureMove(-1, rect.move(-1 * s, 0)))
-        motions.append(FutureMove(-2, rect.move(0, -1 * s)))
-        motions.append(FutureMove(2, rect.move(0, s)))
+        motions.append(FutureMove(1, rect.move(s, 0), self.target))
+        motions.append(FutureMove(-1, rect.move(-1 * s, 0), self.target))
+        motions.append(FutureMove(-2, rect.move(0, -1 * s), self.target))
+        motions.append(FutureMove(2, rect.move(0, s), self.target))
 
         f = list(filter(self.not_collide, motions))
         if (self.allow_reverse is False):
             f = list(filter(self.is_not_reverse_direction, f))
-
+        f = list(filter(self.not_in_red_areas, f))
         return f
 
     def not_collide(self, m):
@@ -55,3 +62,14 @@ class TargetLocator(object):
 
     def is_not_reverse_direction(self, future_move):
         return not (future_move.get_direction() == -1 * self.ghost.motion.dir)
+
+    def not_in_red_areas(self, m):
+        for a in self.red_areas:
+            if self.ghost.col.rect.colliderect(a) \
+                    and m.get_direction() == -2:
+                return False
+        return True
+
+    def are_distance_equal(self, motions):
+        result = list(map(lambda m: m.get_distance(), motions))
+        return len(set(result)) == 1
