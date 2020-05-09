@@ -20,6 +20,8 @@ class TargetLocator(object):
         return self.old_direction
 
     def should_take_decision(self, motions):
+        if self.ghost.motion.teleporting:
+            return False
         '''
         Check if a motion exists with the direction other
         than the axis that the ghost is already moving.

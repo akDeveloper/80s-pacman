@@ -15,11 +15,12 @@ class Motion(object):
         self.collide_x = False
         self.collide_y = False
         self.delta = Vector2(0, 0)
+        self.teleporting = False
 
     def update(self):
+        self.check_teleporting()
         self.check_x_axis_collide()
         self.check_y_axis_collide()
-        self.check_teleporting()
         self.check_velocity()
 
     def check_x_axis_collide(self):
@@ -29,8 +30,9 @@ class Motion(object):
         self.collide(self.vel.x, 0)
 
     def check_y_axis_collide(self):
-        self.rect.top += self.vel.y
-        self.delta.y = self.vel.y
+        if not self.teleporting:
+            self.rect.top += self.vel.y
+            self.delta.y = self.vel.y
         self.collide_y = False
         self.collide(0, self.vel.y)
 
@@ -96,8 +98,10 @@ class Motion(object):
         self.dir = self.prev_dir
 
     def check_teleporting(self):
-        if self.rect.left <= 0 or self.rect.right >= 248:
-            self.collide_y = True
+        if self.rect.left <= 2 or self.rect.right >= 222:
+            self.teleporting = True
+        else:
+            self.teleporting = False
 
         if self.rect.right <= 0:
             self.rect.left = 248

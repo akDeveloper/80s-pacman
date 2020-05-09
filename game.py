@@ -28,6 +28,7 @@ class Game:
         self.player = Pacman(
             (112, 212),
             self.builder.get_platforms(),
+            self.builder.get_dots(),
             self.sprites
         )
 
@@ -40,7 +41,7 @@ class Game:
         self.ghost_controller = GhostController(self.blinky)
 
     def update(self, time):
-        self.player.update(get_pressed(), self.event)
+        self.player.update(get_pressed())
         self.ghost_controller.control(time)
         self.blinky.update(time)
 
@@ -52,6 +53,8 @@ class Game:
 
         # Draw background to surface
         surface.blit(self.builder.get_background(), (0, 0))
+        # draw dots
+        self.builder.get_dots().draw(surface)
         # Draw sprites to surface
         self.sprites.draw(surface)
 
