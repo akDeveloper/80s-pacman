@@ -31,4 +31,5 @@ class FutureMove(object):
         return Vector2(dX, dY)
 
     def calculate_distance(self, vector):
-        return int(math.sqrt(vector.x**2 + vector.y**2))
+        # return int(math.sqrt(vector.x**2 + vector.y**2))
+        return vector.x**2 + vector.y**2

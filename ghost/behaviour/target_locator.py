@@ -3,9 +3,8 @@ from pygame import Rect
 
 
 class TargetLocator(object):
-    def __init__(self, ghost, target, allow_reverse=False):
+    def __init__(self, ghost, allow_reverse=False):
         self.ghost = ghost
-        self.target = target
         self.old_direction = ghost.motion.dir
         self.allow_reverse = allow_reverse
         self.red_areas = [
@@ -13,8 +12,8 @@ class TargetLocator(object):
             Rect(88, 208, 48, 8)
         ]
 
-    def get_direction(self):
-        motions = self.get_available_motion_tiles()
+    def get_direction(self, target):
+        motions = self.get_available_motion_tiles(target)
         if self.should_take_decision(motions):
             return self.take_decision(motions)
         return self.old_direction
@@ -29,7 +28,6 @@ class TargetLocator(object):
         for m in motions:
             if abs(m.get_direction()) != abs(self.ghost.motion.dir):
                 return True
-
         return False
 
     def take_decision(self, motions):
@@ -41,14 +39,15 @@ class TargetLocator(object):
             return m.get_direction()
         return self.old_direction
 
-    def get_available_motion_tiles(self):
+    def get_available_motion_tiles(self, target):
+        """ target -- Rect """
         rect = self.ghost.col.rect
         s = 8  # 1 tile
         motions = []
-        motions.append(FutureMove(1, rect.move(s, 0), self.target))
-        motions.append(FutureMove(-1, rect.move(-1 * s, 0), self.target))
-        motions.append(FutureMove(-2, rect.move(0, -1 * s), self.target))
-        motions.append(FutureMove(2, rect.move(0, s), self.target))
+        motions.append(FutureMove(1, rect.move(s, 0), target))
+        motions.append(FutureMove(-1, rect.move(-1 * s, 0), target))
+        motions.append(FutureMove(-2, rect.move(0, -1 * s), target))
+        motions.append(FutureMove(2, rect.move(0, s), target))
 
         f = list(filter(self.not_collide, motions))
         if (self.allow_reverse is False):

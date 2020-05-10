@@ -3,7 +3,7 @@ from ghost.state import State
 
 class GhostController(object):
 
-    def __init__(self, *ghosts):
+    def __init__(self, ghosts):
         self.msec = 0
         self.interval = 0
         self.ghosts = ghosts
@@ -37,5 +37,5 @@ class GhostController(object):
             self.reset_timer()
 
     def change_state(self):
-        for g in self.ghosts:
+        for g in self.ghosts.sprites():
             g.state = self.state

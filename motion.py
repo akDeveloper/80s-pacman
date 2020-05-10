@@ -97,6 +97,12 @@ class Motion(object):
     def reset_dir(self):
         self.dir = self.prev_dir
 
+    def should_move_to_x(self):
+        return abs(self.dir) == 1
+
+    def should_move_to_y(self):
+        return abs(self.dir) == 2
+
     def check_teleporting(self):
         if self.rect.left <= 2 or self.rect.right >= 222:
             self.teleporting = True

@@ -13,8 +13,8 @@ class Blinky(Ghost):
         x = 112
         y = 116
         self.speed = 2
-        super().__init__(x,  y, self.COLOR, platforms, *groups)
-        self.chase = ChaseAggresive(self, pacman.col.rect)
+        super().__init__(x,  y, self.COLOR, pacman, platforms, *groups)
+        self.chase = ChaseAggresive(self)
         self.scatter = Scatter(self, self.SCATTER_CORNER)
         self.motion.set_direction(-1)
 
