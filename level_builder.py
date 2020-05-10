@@ -4,6 +4,8 @@ from pygame.sprite import Group
 from pygame import Rect
 from factory.map_image_factory import MapImageFactory
 from pygame import Surface
+from dot import Dot
+from big_dot import BigDot
 
 
 class LevelBuilder:
@@ -57,6 +59,16 @@ class LevelBuilder:
             if x > layer['width'] - 1:
                 x = 0
                 y += 1
+        # big dots
+        layer4 = self.data['layers'][3]
+        x = 0
+        y = 3
+        for item in layer4['data']:
+            self.build_big_dots(x, y, item)
+            x += 1
+            if x > layer['width'] - 1:
+                x = 0
+                y += 1
 
     def build_platform(self, x, y):
         Tile(x * 8, y * 8, self.__platforms)
@@ -70,7 +82,14 @@ class LevelBuilder:
     def build_dots(self, x, y, item):
         if item == 0:
             return
-        tile = Tile(x * 8, y * 8, self.__dots)
+        tile = Dot(x * 8, y * 8, self.__dots)
+        image = self.map_factory.get_image(item)
+        tile.set_image(image)
+
+    def build_big_dots(self, x, y, item):
+        if item == 0:
+            return
+        tile = BigDot(x * 8, y * 8, self.__dots)
         image = self.map_factory.get_image(item)
         tile.set_image(image)
 

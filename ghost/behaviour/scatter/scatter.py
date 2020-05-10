@@ -2,7 +2,7 @@ from ghost.behaviour.target_locator import TargetLocator
 from ghost.behaviour.scatter.scatter_behaviour import ScatterBehaviour
 
 
-class ScatterTopright(ScatterBehaviour):
+class Scatter(ScatterBehaviour):
     def __init__(self, ghost, target):
         self.ghost = ghost
         self.target = target

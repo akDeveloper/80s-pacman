@@ -20,11 +20,15 @@ class Game:
         self.screen_size = (self.SCREEN_WIDTH * 2, self.SCREEN_HEIGHT * 2)
         self.screen = pygame.display.set_mode(self.screen_size)
         self.sprites = Group()
+        self.ghosts = Group()
         self.builder = LevelBuilder(
             "resources/levels/level1.json",
             (self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
         )
         self.builder.build()
+        '''
+        Load actors
+        '''
         self.player = Pacman(
             (112, 212),
             self.builder.get_platforms(),
@@ -35,7 +39,15 @@ class Game:
         self.blinky = Blinky(
             self.player,
             self.builder.get_platforms(),
-            self.sprites
+            self.sprites,
+            self.ghosts
+        )
+
+        self.pinky = Pinky(
+            self.player,
+            self.builder.get_platforms(),
+            self.sprites,
+            self.ghosts
         )
 
         self.ghost_controller = GhostController(self.blinky)
@@ -43,7 +55,7 @@ class Game:
     def update(self, time):
         self.player.update(get_pressed())
         self.ghost_controller.control(time)
-        self.blinky.update(time)
+        self.ghosts.update(time)
 
     def render(self):
         # Create surface for handling graphics

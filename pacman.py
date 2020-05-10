@@ -5,6 +5,7 @@ from factory.pacman_image_factory import PacmanImageFactory
 from pacman_animator import PacmanAnimator
 from pygame.locals import K_UP, K_DOWN, K_LEFT, K_RIGHT
 from pygame.sprite import spritecollide
+from big_dot import BigDot
 
 
 class Pacman(Sprite):
@@ -56,6 +57,10 @@ class Pacman(Sprite):
 
     def eat_dots(self):
         dots = spritecollide(self.col, self.dots, True)
+        if (len(dots) > 0):
+            dot = dots[0]
+            if isinstance(dot, BigDot):
+                print("BIG!!!!")
         pass
 
     def move_left(self):
