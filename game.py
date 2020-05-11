@@ -74,10 +74,12 @@ class Game:
         if self.debug:
             # Draw helper platforms
             self.builder.get_platforms().draw(surface)
+            # Draw sprites to surface
+            self.sprites.draw(surface)
             self.debug_group.draw(surface)
-
-        # Draw sprites to surface
-        self.sprites.draw(surface)
+        else:
+            # Draw sprites to surface
+            self.sprites.draw(surface)
 
         # Copy surface to screen surface
         pygame.transform.scale(surface, self.screen_size, self.screen)
@@ -90,7 +92,7 @@ class Game:
     def key_down(self, e):
         self.event = e
         if e.key == K_d:
-            if self.debug == True:
+            if self.debug is True:
                 self.debug = False
             else:
                 self.debug = True

@@ -23,5 +23,3 @@ class Pinky(Ghost):
 
     def get_animator(self):
         return PinkyAnimator(self.factory)
-
-
