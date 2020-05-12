@@ -1,6 +1,6 @@
 import pygame
 from pygame import Surface
-from pygame.locals import K_d
+from pygame.locals import K_d, K_p
 from level import Level
 
 
@@ -14,9 +14,12 @@ class Game:
         self.screen_size = (self.SCREEN_WIDTH * 2, self.SCREEN_HEIGHT * 2)
         self.screen = pygame.display.set_mode(self.screen_size)
         self.debug = False
-        self.level = Level(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+        self.paused = False
+        self.__init_level()
 
     def update(self, time):
+        if self.paused:
+            return
         self.level.update(time)
 
     def render(self):
@@ -42,9 +45,17 @@ class Game:
                 self.debug = False
             else:
                 self.debug = True
+        if e.key == K_p:
+            if self.paused is True:
+                self.paused = False
+            else:
+                self.paused = True
 
     def key_up(self, e):
         pass
 
     def is_running(self):
         return self.running
+
+    def __init_level(self):
+        self.level = Level(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)

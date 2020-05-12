@@ -1,4 +1,4 @@
-class PacmanAnimator(object):
+class WalkAnimator(object):
     def __init__(self, factory):
         self.factory = factory
         self.s = {

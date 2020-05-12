@@ -9,6 +9,9 @@ class App(GameEvent):
 
     FPS = 30  # 1/60th of second
 
+    def __init__(self):
+        self.running = True
+
     def on_init(self):
         pygame.init()
         self.__game = Game()
@@ -30,8 +33,7 @@ class App(GameEvent):
 
     def on_key_up(self, event):
         if event.key == K_ESCAPE:
-            exit()
-
+            self.running = False
         self.__game.key_up(event)
 
     def on_execute(self):
@@ -40,7 +42,7 @@ class App(GameEvent):
 
         clock = pygame.time.Clock()
 
-        while(self.__game.is_running()):
+        while(self.running):
             clock.tick(self.FPS)
             for event in pygame.event.get():
                 self.on_event(event)

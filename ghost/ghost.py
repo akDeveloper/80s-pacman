@@ -23,8 +23,13 @@ class Ghost(Sprite):
         self.image = self.animator.next(0)
         self.rect = self.image.get_rect(center=(x, y))
         self.col = Entity(self.rect.x+3, self.rect.y+3, 8, 8, color, groups[2])
-        self.motion = Motion(self.col, self.get_speed(), platforms)
         self.loc = Entity(self.rect.x+3, self.rect.y+3, 8, 8, color, groups[2])
+        self.motion = Motion(self.col, self.get_speed(), platforms)
+
+    def kill(self):
+        self.col.kill()
+        self.loc.kill()
+        super().kill()
 
     def get_speed(self):
         raise MethodNotImplemented("Implement `get_speed` method")
@@ -33,6 +38,9 @@ class Ghost(Sprite):
         raise MethodNotImplemented("Implement `get_factory` method")
 
     def update(self, time):
+        if self.pacman.alive is False:
+            return
+
         if self.state == State.CHASE:
             self.chase.chase(self.pacman)
             self.loc.rect = self.chase.target

@@ -20,6 +20,18 @@ class PacmanImageFactory(object):
             self.sheet.get_image(1, 33, 13, 13),  # Up 2
             self.sheet.get_image(17, 49, 13, 13),  # Down 1
             self.sheet.get_image(1, 49, 13, 13),  # Down 2
+
+            self.sheet.get_image(49, 0, 13, 13),  # Death
+            self.sheet.get_image(64, 0, 15, 13),  # Death
+            self.sheet.get_image(80, 0, 15, 13),  # Death
+            self.sheet.get_image(96, 0, 15, 13),  # Death
+            self.sheet.get_image(112, 0, 15, 13),  # Death
+            self.sheet.get_image(128, 0, 15, 13),  # Death
+            self.sheet.get_image(144, 2, 15, 13),  # Death
+            self.sheet.get_image(160, 2, 15, 13),  # Death
+            self.sheet.get_image(176, 2, 13, 13),  # Death
+            self.sheet.get_image(192, 0, 13, 13),  # Death
+            self.sheet.get_image(208, 3, 13, 13),  # Death
         ]
         for i in images:
             self.images.append(i)
