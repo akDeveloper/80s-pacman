@@ -5,7 +5,7 @@ from pygame import Rect
 from factory.map_image_factory import MapImageFactory
 from pygame import Surface
 from dot import Dot
-from big_dot import BigDot
+from energizer import Energizer
 
 
 class LevelBuilder:
@@ -89,7 +89,7 @@ class LevelBuilder:
     def build_big_dots(self, x, y, item):
         if item == 0:
             return
-        tile = BigDot(x * 8, y * 8, self.__dots)
+        tile = Energizer(x * 8, y * 8, self.__dots)
         image = self.map_factory.get_image(item)
         tile.set_image(image)
 

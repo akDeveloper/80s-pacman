@@ -1,5 +1,5 @@
 from tile import Tile
 
 
-class BigDot(Tile):
+class Energizer(Tile):
     pass

@@ -3,6 +3,13 @@ from pygame.sprite import collide_rect
 
 
 class Motion(object):
+    UP = -2
+    DOWN = 2
+    LEFT = -1
+    RIGHT = 1
+    X_AXIS = 1
+    Y_AXIS = 2
+
     def __init__(self, sprite, speed, platforms):
         self.speed = speed
         self.dir = 0  # The direction from input
@@ -73,19 +80,19 @@ class Motion(object):
         return False
 
     def move_left(self):
-        self.dir = -1
+        self.dir = self.LEFT
         self.vel.x = -1 * self.speed
 
     def move_right(self):
-        self.dir = 1
+        self.dir = self.RIGHT
         self.vel.x = self.speed
 
     def move_up(self):
-        self.dir = -2
+        self.dir = self.UP
         self.vel.y = -1 * self.speed
 
     def move_down(self):
-        self.dir = 2
+        self.dir = self.DOWN
         self.vel.y = self.speed
 
     def reset_x(self):
@@ -123,7 +130,7 @@ class Motion(object):
             self.current_dir = 0
 
     def check_velocity(self):
-        if abs(self.dir) == 1 and self.collide_y:
+        if abs(self.dir) == self.X_AXIS and self.collide_y:
             self.reset_y()
-        elif abs(self.dir) == 2 and self.collide_x:
+        elif abs(self.dir) == self.Y_AXIS and self.collide_x:
             self.reset_x()

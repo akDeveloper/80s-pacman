@@ -3,9 +3,8 @@ from entity import Entity
 from motion import Motion
 from factory.pacman_image_factory import PacmanImageFactory
 from pacman_animator import PacmanAnimator
-from pygame.locals import K_UP, K_DOWN, K_LEFT, K_RIGHT
 from pygame.sprite import spritecollide
-from big_dot import BigDot
+from energizer import Energizer
 
 
 class Pacman(Sprite):
@@ -19,12 +18,10 @@ class Pacman(Sprite):
         self.col = Entity(self.rect.x+2, self.rect.y+2, 8, 8, (255, 0, 0))
         self.speed = 2
         self.motion = Motion(self.col, self.speed, platforms)
-        self.motion.set_direction(-1)
+        self.motion.set_direction(Motion.LEFT)
         self.dots = dots
 
-    def update(self, key):
-        self.check_user_input(key)
-
+    def update(self):
         '''
         Update pacman position
         '''
@@ -59,33 +56,9 @@ class Pacman(Sprite):
         dots = spritecollide(self.col, self.dots, True)
         if (len(dots) > 0):
             dot = dots[0]
-            if isinstance(dot, BigDot):
+            if isinstance(dot, Energizer):
                 print("BIG!!!!")
         pass
 
-    def move_left(self):
-        self.motion.set_direction(-1)
-
-    def move_right(self):
-        self.motion.set_direction(1)
-
-    def move_up(self):
-        self.motion.set_direction(-2)
-
-    def move_down(self):
-        self.motion.set_direction(2)
-
-    def check_user_input(self, key):
-        dir = self.motion.dir
-        '''
-        Check user input for direction
-        '''
-        if (key[K_UP]):
-            dir = -2
-        if (key[K_RIGHT]):
-            dir = 1
-        if (key[K_DOWN]):
-            dir = 2
-        if (key[K_LEFT]):
-            dir = -1
+    def set_direction(self, dir):
         self.motion.set_direction(dir)
