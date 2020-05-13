@@ -5,14 +5,16 @@ from ghost.pinky.pinky import Pinky
 from ghost.ghost_controller import GhostController
 from pacman_input import PacmanInput
 from pygame.sprite import Group
-from pygame.mixer import Sound
+from timer import Timer
 
 
 class Level(object):
 
-    START = 0
-    PLAY = 1
-    END = 2
+    START = 0  # When level starts for 1st time
+    PLAY = 1  # Playing lthe level
+    LOSE = 2  # When pacman animate lose state
+    LOST = 3  # When a ghost ate pacman
+    RESTART = 4  # Restart after life lost
 
     def __init__(self, screen_width, screen_height):
         self.sprites = Group()
@@ -22,32 +24,46 @@ class Level(object):
         self.__initialize_actors()
         self.input = PacmanInput()
         self.state = self.START
-        self.intro_time = 0
+        self.intro_time = Timer(1000)
+        self.ending_time = Timer(800)
+        self.reset_ending_time = Timer(1000)
+        self.restart_time = Timer(800)
         self.transistions = {
             self.START: self.intro,
             self.PLAY: self.playing,
-            self.END: self.ending
+            self.LOST: self.lost,
+            self.LOSE: self.losing,
+            self.RESTART: self.restarting
         }
-        self.intro_music = Sound('resources/sounds/game_start.wav')
-        self.intro_music.play()
 
     def update(self, time):
         func = self.transistions.get(self.state, lambda: 'Invalid level state')
         func(time)
 
     def intro(self, time):
-        self.intro_time += time
-        if self.intro_time > 4000:
+        if self.intro_time.completed(time):
             self.state = self.PLAY
-            self.intro_time = 0
 
-    def ending(self, time):
-        pass
+    def lost(self, time):
+        if self.ending_time.looped(time):
+            self.reset_ghosts()
+            self.state = self.LOSE
+
+    def losing(self, time):
+        if self.player.lose_completed():
+            self.reset_player()
+            if self.reset_ending_time.looped(time):
+                self.reset_after_lose()
+            return
+        self.player.update(time)
+
+    def restarting(self, time):
+        if (self.restart_time.looped(time)):
+            self.state = self.PLAY
 
     def playing(self, time):
-        if not self.player.alive and \
-                self.player.death_completed():
-            self.reset_after_death()
+        if not self.player.alive:
+            self.state = self.LOST
 
         self.player.set_direction(
             self.input.get_direction(
@@ -71,13 +87,18 @@ class Level(object):
         self.sprites.draw(surface)
         self.debug_group.draw(surface)
 
-    def reset_after_death(self):
-        self.reset()
+    def reset_after_lose(self):
         self.__initialize_actors()
-        self.state = self.START
+        self.state = self.RESTART
 
-    def reset(self):
+    def reset_actors(self):
+        self.reset_player()
+        self.reset_ghosts()
+
+    def reset_player(self):
         self.player.kill()
+
+    def reset_ghosts(self):
         for g in self.ghosts:
             g.kill()
 

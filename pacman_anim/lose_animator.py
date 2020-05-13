@@ -1,4 +1,4 @@
-class DeathAnimator(object):
+class LoseAnimator(object):
     def __init__(self, factory):
         self.factory = factory
         self.s = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
@@ -9,7 +9,7 @@ class DeathAnimator(object):
         self.tick += 1
         s = self.s
         index = self.get_next_valid_index(s)
-        if self.tick > 10:
+        if self.tick > 5:
             self.index = index
             self.tick = 0
         return self.factory.get_image(s[self.index])
