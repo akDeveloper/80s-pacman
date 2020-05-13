@@ -31,6 +31,16 @@ class GhostImageFactory(object):
             self.sheet.get_image(81, 81, 14, 14),   # 15 Up 2
             self.sheet.get_image(97, 81, 14, 14),   # 16 Down 1
             self.sheet.get_image(113, 81, 14, 14),  # 17 Down 2
+            # Inky
+            self.sheet.get_image(1, 97, 14, 14),    # 18 Stand
+            self.sheet.get_image(1, 97, 14, 14),    # 19 Right 1
+            self.sheet.get_image(17, 97, 14, 14),   # 20 Right 2
+            self.sheet.get_image(33, 97, 14, 14),   # 21 Left 1
+            self.sheet.get_image(49, 97, 14, 14),   # 22 Left 2
+            self.sheet.get_image(65, 97, 14, 14),   # 23 Up 1
+            self.sheet.get_image(81, 97, 14, 14),   # 24 Up 2
+            self.sheet.get_image(97, 97, 14, 14),   # 25 Down 1
+            self.sheet.get_image(113, 97, 14, 14),  # 26 Down 2
         ]
         for i in images:
             self.images.append(i)

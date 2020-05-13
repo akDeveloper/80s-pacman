@@ -40,6 +40,7 @@ class Ghost(Sprite):
 
     def update(self, time):
         if self.pacman.alive is False:
+            self.image = self.animator.next(self.motion.current_dir)
             return
 
         if self.state == State.CHASE:

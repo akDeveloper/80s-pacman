@@ -2,6 +2,7 @@ from level_builder import LevelBuilder
 from pacman import Pacman
 from ghost.blinky.blinky import Blinky
 from ghost.pinky.pinky import Pinky
+from ghost.inky.inky import Inky
 from ghost.ghost_controller import GhostController
 from pacman_input import PacmanInput
 from pygame.sprite import Group
@@ -25,8 +26,8 @@ class Level(object):
         self.input = PacmanInput()
         self.state = self.START
         self.intro_time = Timer(1000)
-        self.ending_time = Timer(800)
-        self.reset_ending_time = Timer(1000)
+        self.lost_time = Timer(1000)
+        self.reset_losing_time = Timer(1000)
         self.restart_time = Timer(800)
         self.transistions = {
             self.START: self.intro,
@@ -45,14 +46,15 @@ class Level(object):
             self.state = self.PLAY
 
     def lost(self, time):
-        if self.ending_time.looped(time):
+        self.ghosts.update(time)
+        if self.lost_time.looped(time):
             self.reset_ghosts()
             self.state = self.LOSE
 
     def losing(self, time):
         if self.player.lose_completed():
             self.reset_player()
-            if self.reset_ending_time.looped(time):
+            if self.reset_losing_time.looped(time):
                 self.reset_after_lose()
             return
         self.player.update(time)
@@ -139,6 +141,14 @@ class Level(object):
         )
         self.pinky = Pinky(
             self.player,
+            self.builder.get_platforms(),
+            self.sprites,
+            self.ghosts,
+            self.debug_group
+        )
+        self.inky = Inky(
+            self.player,
+            self.blinky,
             self.builder.get_platforms(),
             self.sprites,
             self.ghosts,
