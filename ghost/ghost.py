@@ -25,6 +25,7 @@ class Ghost(Sprite):
         self.col = Entity(self.rect.x+3, self.rect.y+3, 8, 8, color, groups[2])
         self.loc = Entity(self.rect.x+3, self.rect.y+3, 8, 8, color, groups[2])
         self.motion = Motion(self.col, self.get_speed(), platforms)
+        self.state_changed = False
 
     def kill(self):
         self.col.kill()
@@ -56,3 +57,7 @@ class Ghost(Sprite):
         self.rect.center = self.col.rect.center
         self.motion.check_current_direction()
         self.image = self.animator.next(self.motion.current_dir)
+
+    def set_state(self, state):
+        self.state = state
+        self.state_changed = True

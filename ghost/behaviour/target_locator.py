@@ -3,14 +3,17 @@ from pygame import Rect
 
 
 class TargetLocator(object):
-    def __init__(self, ghost, allow_reverse=False):
+    def __init__(self, ghost):
         self.ghost = ghost
         self.old_direction = ghost.motion.dir
-        self.allow_reverse = allow_reverse
+        self.allow_reverse = False
         self.red_areas = [
             Rect(88, 112, 48, 8),
             Rect(88, 208, 48, 8)
         ]
+
+    def set_reverse(self, condition):
+        self.allow_reverse = condition
 
     def get_direction(self, target):
         motions = self.get_available_motion_tiles(target)
@@ -31,6 +34,8 @@ class TargetLocator(object):
         return False
 
     def take_decision(self, motions):
+        self.set_reverse(False)
+        self.ghost.state_changed = False
         motions.sort(key=lambda move: move.get_distance())
         if self.are_distance_equal(motions):
             motions.sort(key=lambda move: move.priority)

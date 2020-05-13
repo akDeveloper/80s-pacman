@@ -7,6 +7,7 @@ from pacman_anim.walk_animator import WalkAnimator
 from pygame.sprite import spritecollide
 from pygame.sprite import collide_rect
 from energizer import Energizer
+from sound_manager import SoundManager
 
 
 class Pacman(Sprite):
@@ -25,6 +26,8 @@ class Pacman(Sprite):
         self.dots = dots
         self.alive = True
         self.ghosts = ghosts
+        self.sound = SoundManager()
+        self.dots_for_sound = 0
 
     def update(self, time):
         self.check_ghost_collide()
@@ -74,6 +77,10 @@ class Pacman(Sprite):
         dots = spritecollide(self.col, self.dots, True)
         if (len(dots) > 0):
             dot = dots[0]
+            self.dots_for_sound += 1
+            if self.dots_for_sound >= 2:
+                # self.sound.play_munch(time)
+                self.dots_for_sound = 0
             if isinstance(dot, Energizer):
                 print("BIG!!!!")
         pass

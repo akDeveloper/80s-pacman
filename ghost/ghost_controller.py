@@ -38,4 +38,4 @@ class GhostController(object):
 
     def change_state(self):
         for g in self.ghosts.sprites():
-            g.state = self.state
+            g.set_state(self.state)
