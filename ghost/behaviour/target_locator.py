@@ -12,16 +12,16 @@ class TargetLocator(object):
             Rect(88, 208, 48, 8)
         ]
 
-    def set_reverse(self, condition):
+    def set_reverse(self, condition: bool) -> None:
         self.allow_reverse = condition
 
-    def get_direction(self, target):
+    def get_direction(self, target: Rect) -> int:
         motions = self.get_available_motion_tiles(target)
         if self.should_take_decision(motions):
             return self.take_decision(motions)
         return self.old_direction
 
-    def should_take_decision(self, motions):
+    def should_take_decision(self, motions: list) -> bool:
         if self.ghost.motion.teleporting:
             return False
         '''
@@ -33,7 +33,7 @@ class TargetLocator(object):
                 return True
         return False
 
-    def take_decision(self, motions):
+    def take_decision(self, motions: list) -> int:
         self.set_reverse(False)
         self.ghost.state_changed = False
         motions.sort(key=lambda move: move.get_distance())
@@ -44,7 +44,7 @@ class TargetLocator(object):
             return m.get_direction()
         return self.old_direction
 
-    def get_available_motion_tiles(self, target):
+    def get_available_motion_tiles(self, target: Rect) -> list:
         """ target -- Rect """
         rect = self.ghost.col.rect
         s = 8  # 1 tile
@@ -60,7 +60,7 @@ class TargetLocator(object):
         f = list(filter(self.not_in_red_areas, f))
         return f
 
-    def not_collide(self, m):
+    def not_collide(self, m: FutureMove) -> bool:
         for p in self.ghost.motion.platforms:
             if m.get_rect().colliderect(p.rect):
                 return False

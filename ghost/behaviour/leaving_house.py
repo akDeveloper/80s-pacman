@@ -1,0 +1,2 @@
+class LeavingHouse(object):
+    pass

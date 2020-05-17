@@ -1,27 +1,56 @@
 from ghost.behaviour.target_locator import TargetLocator
-from ghost.behaviour.chase.chase_behaviour import ChaseBehaviour
+from ghost.behaviour.behaviour import Behaviour
+from pygame import Rect
 
 
-class ChaseBashful(ChaseBehaviour):
+class ChaseBashful(Behaviour):
+    TILE_WIDTH = 8
 
-    def __init__(self, ghost):
+    def __init__(self, ghost, pacman, blinky):
         self.ghost = ghost
         self.locator = TargetLocator(ghost)
         self.target = None
+        self.pacman = pacman
+        self.blinky = blinky
 
-    def chase(self, pacman):
-        self.target = self.calculate_target_rect(pacman)
+    def execute(self):
+        self.target = self.calculate_target_rect()
         dir = self.locator.get_direction(self.target)
         self.ghost.motion.set_direction(dir)
 
-    def calculate_target_rect(self, pacman):
-        if pacman.motion.current_dir != 0:
-            facing = pacman.motion.current_dir
+    def get_target(self) -> Rect:
+        return self.target
+
+    def calculate_target_rect(self):
+        ''' Return Rect '''
+        if self.pacman.motion.current_dir != 0:
+            facing = self.pacman.motion.current_dir
         else:
-            facing = pacman.motion.dir
-        rect = pacman.motion.rect
-        delta = 32  # 4 tiles away from the direction of pacman
+            facing = self.pacman.motion.dir
+        rect = self.pacman.motion.rect
+        '''
+        2 tiles away from the direction of pacman
+        '''
+        delta = self.TILE_WIDTH * 2
         if abs(facing) > 1:
             facing = facing / 2
-            return rect.move(0, facing * delta)
-        return rect.move(facing * delta, 0)
+            pacman_rect = rect.move(0, facing * delta)
+        else:
+            pacman_rect = rect.move(facing * delta, 0)
+        dX = pacman_rect.x - self.blinky.rect.x
+        if dX < 0:
+            dxMinus = True
+        else:
+            dxMinus = False
+        dY = pacman_rect.y - self.blinky.rect.y
+        if dY < 0:
+            dyMinus = True
+        else:
+            dyMinus = False
+        dxDouble = dX * 2
+        if dxMinus:
+            dxDouble = dxDouble * -1
+        dyDouble = dY * 2
+        if not dyMinus:
+            dyDouble = dyDouble * -1
+        return self.blinky.rect.move(dxDouble, dyDouble)

@@ -1,25 +1,32 @@
 from ghost.behaviour.target_locator import TargetLocator
-from ghost.behaviour.chase.chase_behaviour import ChaseBehaviour
+from ghost.behaviour.behaviour import Behaviour
+from pygame import Rect
 
 
-class ChaseAmbush(ChaseBehaviour):
+class ChaseAmbush(Behaviour):
 
-    def __init__(self, ghost):
+    def __init__(self, ghost, pacman):
         self.ghost = ghost
         self.locator = TargetLocator(ghost)
         self.target = None
+        self.pacman = pacman
 
-    def chase(self, pacman):
-        self.target = self.calculate_target_rect(pacman)
+    def execute(self):
+        ''' Return void '''
+        self.target = self.calculate_target_rect()
         dir = self.locator.get_direction(self.target)
         self.ghost.motion.set_direction(dir)
 
-    def calculate_target_rect(self, pacman):
-        if pacman.motion.current_dir != 0:
-            facing = pacman.motion.current_dir
+    def get_target(self) -> Rect:
+        return self.target
+
+    def calculate_target_rect(self):
+        ''' Return Rect '''
+        if self.pacman.motion.current_dir != 0:
+            facing = self.pacman.motion.current_dir
         else:
-            facing = pacman.motion.dir
-        rect = pacman.motion.rect
+            facing = self.pacman.motion.dir
+        rect = self.pacman.motion.rect
         delta = 32  # 4 tiles away from the direction of pacman
         if abs(facing) > 1:
             facing = facing / 2

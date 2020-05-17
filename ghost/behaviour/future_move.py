@@ -2,6 +2,8 @@ from pygame.math import Vector2
 
 
 class FutureMove(object):
+    TILE_WIDTH = 8
+
     def __init__(self, dir, rect, target):
         p = {
             -2: 0,
@@ -24,8 +26,8 @@ class FutureMove(object):
         return self.distance
 
     def get_delta_vector(self, target):
-        dX = (self.rect.x - target.x) / 8
-        dY = (self.rect.y - target.y) / 8
+        dX = (self.rect.x - target.x) / self.TILE_WIDTH
+        dY = (self.rect.y - target.y) / self.TILE_WIDTH
 
         return Vector2(dX, dY)
 

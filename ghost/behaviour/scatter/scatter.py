@@ -1,9 +1,11 @@
 from ghost.behaviour.target_locator import TargetLocator
-from ghost.behaviour.scatter.scatter_behaviour import ScatterBehaviour
+from ghost.behaviour.behaviour import Behaviour
+from pygame import Rect
+from ghost.ghost import Ghost
 
 
-class Scatter(ScatterBehaviour):
-    def __init__(self, ghost, target):
+class Scatter(Behaviour):
+    def __init__(self, ghost: Ghost, target: Rect):
         '''
         ghost -- Ghost
         target -- Rect
@@ -12,6 +14,9 @@ class Scatter(ScatterBehaviour):
         self.target = target
         self.locator = TargetLocator(ghost)
 
-    def scatter(self):
+    def execute(self):
         dir = self.locator.get_direction(self.target)
         self.ghost.motion.set_direction(dir)
+
+    def get_target(self) -> Rect:
+        return self.target
