@@ -4,15 +4,18 @@ from ghost.behaviour.chase.chase_ambush import ChaseAmbush
 from ghost.behaviour.scatter.scatter import Scatter
 from pygame import Rect
 from ghost.state import State
+from ghost.behaviour.behaviour import Behaviour
+from pacman import Pacman
+from pygame.sprite import Group
 
 
 class Pinky(Ghost):
     COLOR = (255, 192, 203)
     SCATTER_CORNER = Rect(16, 0, 8, 8)
 
-    def __init__(self, pacman, platforms, *groups):
-        x = 100
-        y = 116
+    def __init__(self, pacman: Pacman, platforms: Group, *groups):
+        x = 114
+        y = 142
         self.speed = 2
         super().__init__(x,  y, self.COLOR, pacman, platforms, *groups)
         self.chase = ChaseAmbush(self, pacman)
@@ -20,13 +23,13 @@ class Pinky(Ghost):
         self.motion.set_direction(-1)
         self.__state = self.scatter
 
-    def get_speed(self):
+    def get_speed(self) -> int:
         return self.speed
 
-    def get_animator(self):
+    def get_animator(self) -> PinkyAnimator:
         return PinkyAnimator(self.factory)
 
-    def get_state(self):
+    def get_state(self) -> Behaviour:
         return self.__state
 
     def set_state(self, state: int):

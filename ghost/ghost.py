@@ -49,16 +49,8 @@ class Ghost(Sprite):
             self.image = self.animator.next(self.motion.current_dir)
             return
 
-        self.get_state().execute()
-        self.loc.rect = self.get_state().target
-        '''
-        if self.state == State.CHASE:
-            self.chase.execute()
-            self.loc.rect = self.chase.target
-        elif self.state == State.SCATTER:
-            self.scatter.execute()
-            self.loc.rect = self.scatter.target
-        '''
+        self.get_state().execute(time)
+        self.loc.rect = self.get_state().get_target()
         if self.motion.should_move_to_x():
             self.motion.reset_y()
         elif self.motion.should_move_to_y():
@@ -67,4 +59,3 @@ class Ghost(Sprite):
         self.rect.center = self.col.rect.center
         self.motion.check_current_direction()
         self.image = self.animator.next(self.motion.current_dir)
-

@@ -11,7 +11,7 @@ class ChaseAmbush(Behaviour):
         self.target = None
         self.pacman = pacman
 
-    def execute(self):
+    def execute(self, time: int):
         ''' Return void '''
         self.target = self.calculate_target_rect()
         dir = self.locator.get_direction(self.target)

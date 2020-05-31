@@ -13,7 +13,7 @@ class ChaseBashful(Behaviour):
         self.pacman = pacman
         self.blinky = blinky
 
-    def execute(self):
+    def execute(self, time: int):
         self.target = self.calculate_target_rect()
         dir = self.locator.get_direction(self.target)
         self.ghost.motion.set_direction(dir)

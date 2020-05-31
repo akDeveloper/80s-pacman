@@ -11,7 +11,7 @@ class ChaseAggresive(Behaviour):
         self.target = None
         self.pacman = pacman
 
-    def execute(self):
+    def execute(self, time: int):
         self.locator.set_reverse(self.ghost.state_changed)
         self.target = self.pacman.col.rect
         dir = self.locator.get_direction(self.target)

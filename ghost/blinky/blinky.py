@@ -4,13 +4,16 @@ from ghost.behaviour.chase.chase_aggresive import ChaseAggresive
 from ghost.behaviour.scatter.scatter import Scatter
 from pygame import Rect
 from ghost.state import State
+from ghost.behaviour.behaviour import Behaviour
+from pacman import Pacman
+from pygame.sprite import Group
 
 
 class Blinky(Ghost):
     COLOR = (255, 0, 0)
     SCATTER_CORNER = Rect(200, 0, 8, 8)
 
-    def __init__(self, pacman, platforms, *groups):
+    def __init__(self, pacman: Pacman, platforms: Group, *groups):
         x = 112
         y = 116
         self.speed = 2
@@ -20,16 +23,16 @@ class Blinky(Ghost):
         self.motion.set_direction(-1)
         self.__state = self.scatter
 
-    def get_speed(self):
+    def get_speed(self) -> int:
         return self.speed
 
-    def get_animator(self):
+    def get_animator(self) -> BlinkyAnimator:
         return BlinkyAnimator(self.factory)
 
-    def get_state(self):
+    def get_state(self) -> Behaviour:
         return self.__state
 
-    def set_state(self, state: int):
+    def set_state(self, state: int) -> None:
         if state == State.SCATTER:
             self.__state = self.scatter
         elif state == State.CHASE:

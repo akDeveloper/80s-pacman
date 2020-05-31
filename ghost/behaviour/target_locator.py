@@ -55,7 +55,7 @@ class TargetLocator(object):
         motions.append(FutureMove(2, rect.move(0, s), target))
 
         f = list(filter(self.not_collide, motions))
-        if (self.allow_reverse is False):
+        if self.allow_reverse is False:
             f = list(filter(self.is_not_reverse_direction, f))
         f = list(filter(self.not_in_red_areas, f))
         return f
@@ -66,16 +66,16 @@ class TargetLocator(object):
                 return False
         return True
 
-    def is_not_reverse_direction(self, future_move):
-        return not (future_move.get_direction() == -1 * self.ghost.motion.dir)
+    def is_not_reverse_direction(self, m: FutureMove):
+        return not (m.get_direction() == -1 * self.ghost.motion.dir)
 
-    def not_in_red_areas(self, m):
+    def not_in_red_areas(self, m: FutureMove):
         for a in self.red_areas:
             if self.ghost.col.rect.colliderect(a) \
                     and m.get_direction() == -2:
                 return False
         return True
 
-    def are_distance_equal(self, motions):
+    def are_distance_equal(self, motions: list) -> bool:
         result = list(map(lambda m: m.get_distance(), motions))
         return len(set(result)) == 1
