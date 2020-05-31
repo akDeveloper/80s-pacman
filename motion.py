@@ -1,5 +1,6 @@
 from pygame.math import Vector2
 from pygame.sprite import collide_rect
+from door import Door
 
 
 class Motion(object):
@@ -24,27 +25,29 @@ class Motion(object):
         self.delta = Vector2(0, 0)
         self.teleporting = False
 
-    def update(self):
+    def update(self, skip_door: bool = False):
         self.check_teleporting()
-        self.check_x_axis_collide()
-        self.check_y_axis_collide()
+        self.check_x_axis_collide(skip_door)
+        self.check_y_axis_collide(skip_door)
         self.check_velocity()
 
-    def check_x_axis_collide(self):
+    def check_x_axis_collide(self, skip_door: bool):
         self.rect.left += self.vel.x
         self.delta.x = self.vel.x
         self.collide_x = False
-        self.collide(self.vel.x, 0)
+        self.collide(self.vel.x, 0, skip_door)
 
-    def check_y_axis_collide(self):
+    def check_y_axis_collide(self, skip_door: bool):
         if not self.teleporting:
             self.rect.top += self.vel.y
             self.delta.y = self.vel.y
         self.collide_y = False
-        self.collide(0, self.vel.y)
+        self.collide(0, self.vel.y, skip_door)
 
-    def collide(self, xvel, yvel):
+    def collide(self, xvel: int, yvel: int, skip_door: bool):
         for p in self.platforms:
+            if skip_door is True and isinstance(p, Door):
+                continue
             if collide_rect(self.sprite, p):
                 if xvel > 0:
                     self.rect.right = p.rect.left

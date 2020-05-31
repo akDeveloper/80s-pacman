@@ -6,6 +6,7 @@ from factory.map_image_factory import MapImageFactory
 from pygame import Surface
 from dot import Dot
 from energizer import Energizer
+from door import Door
 
 
 class LevelBuilder:
@@ -13,6 +14,7 @@ class LevelBuilder:
     def __init__(self, level_file, screen_size):
         self.__platforms = Group()
         self.__dots = Group()
+        self.__doors = Group()
         self.images = []
         self.map_factory = MapImageFactory()
         self.backround = Surface(screen_size)
@@ -69,6 +71,16 @@ class LevelBuilder:
             if x > layer['width'] - 1:
                 x = 0
                 y += 1
+        # doors
+        layer4 = self.data['layers'][4]
+        x = 0
+        y = 3
+        for item in layer4['data']:
+            self.build_doors(x, y, item)
+            x += 1
+            if x > layer['width'] - 1:
+                x = 0
+                y += 1
 
     def build_platform(self, x, y):
         Tile(x * 8, y * 8, self.__platforms)
@@ -93,6 +105,12 @@ class LevelBuilder:
         image = self.map_factory.get_image(item)
         tile.set_image(image)
 
+    def build_doors(self, x, y, item):
+        if item == 0:
+            return
+        door = Door(x * 8, y * 8, self.__platforms)
+        self.__doors.add(door)
+
     def get_platforms(self):
         return self.__platforms
 
@@ -104,3 +122,6 @@ class LevelBuilder:
 
     def get_world_size(self):
         return self.world_size
+
+    def get_doors(self):
+        return self.__doors

@@ -137,14 +137,16 @@ class Level(object):
             self.builder.get_platforms(),
             self.sprites,
             self.ghosts,
-            self.debug_group
+            self.debug_group,
+            self.builder.get_doors()
         )
         self.pinky = Pinky(
             self.player,
             self.builder.get_platforms(),
             self.sprites,
             self.ghosts,
-            self.debug_group
+            self.debug_group,
+            self.builder.get_doors()
         )
         self.inky = Inky(
             self.player,
@@ -152,6 +154,7 @@ class Level(object):
             self.builder.get_platforms(),
             self.sprites,
             self.ghosts,
-            self.debug_group
+            self.debug_group,
+            self.builder.get_doors()
         )
         self.ghost_controller = GhostController(self.ghosts)

@@ -29,6 +29,7 @@ class Inky(Ghost):
         self.in_house = InHouse(self)
         self.motion.set_direction(-2)
         self.__state = self.in_house
+        self.state_name = State.IN_HOUSE
 
     def get_speed(self) -> int:
         return self.speed
@@ -39,11 +40,13 @@ class Inky(Ghost):
     def get_state(self) -> Behaviour:
         return self.__state
 
+    def get_state_name(self) -> str:
+        return self.state_name
+
     def set_state(self, state: int) -> None:
-        if self.__state == self.in_house:
-            return
         if state == State.SCATTER:
             self.__state = self.scatter
         elif state == State.CHASE:
             self.__state = self.chase
+        self.state_name = state
         self.state_changed = True

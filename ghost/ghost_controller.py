@@ -25,6 +25,7 @@ class GhostController(object):
         self.msec = 0
 
     def control(self, time):
+        self.check_house_leaving()
         self.msec += time
         if (len(self.states) == 0):
             return
@@ -38,4 +39,11 @@ class GhostController(object):
 
     def change_state(self):
         for g in self.ghosts.sprites():
+            if g.get_state_name() == State.IN_HOUSE:
+                continue
             g.set_state(self.state)
+
+    def check_house_leaving(self):
+        for g in self.ghosts.sprites():
+            if not g.is_in_house():
+                g.set_state(self.state)

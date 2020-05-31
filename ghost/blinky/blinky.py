@@ -22,6 +22,7 @@ class Blinky(Ghost):
         self.scatter = Scatter(self, self.SCATTER_CORNER)
         self.motion.set_direction(-1)
         self.__state = self.scatter
+        self.state_name = State.SCATTER
 
     def get_speed(self) -> int:
         return self.speed
@@ -32,9 +33,13 @@ class Blinky(Ghost):
     def get_state(self) -> Behaviour:
         return self.__state
 
+    def get_state_name(self) -> str:
+        return self.state_name
+
     def set_state(self, state: int) -> None:
         if state == State.SCATTER:
             self.__state = self.scatter
         elif state == State.CHASE:
             self.__state = self.chase
+        self.state_name = state
         self.state_changed = True

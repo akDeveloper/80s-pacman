@@ -4,6 +4,7 @@ from pygame import Rect
 
 
 class ChaseAggresive(Behaviour):
+    SPEED = 2
 
     def __init__(self, ghost, pacman):
         self.ghost = ghost
@@ -12,6 +13,7 @@ class ChaseAggresive(Behaviour):
         self.pacman = pacman
 
     def execute(self, time: int):
+        self.ghost.motion.speed = self.SPEED
         self.locator.set_reverse(self.ghost.state_changed)
         self.target = self.pacman.col.rect
         dir = self.locator.get_direction(self.target)

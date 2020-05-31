@@ -5,6 +5,7 @@ from pygame import Rect
 
 class ChaseBashful(Behaviour):
     TILE_WIDTH = 8
+    SPEED = 2
 
     def __init__(self, ghost, pacman, blinky):
         self.ghost = ghost
@@ -14,6 +15,7 @@ class ChaseBashful(Behaviour):
         self.blinky = blinky
 
     def execute(self, time: int):
+        self.ghost.motion.speed = self.SPEED
         self.target = self.calculate_target_rect()
         dir = self.locator.get_direction(self.target)
         self.ghost.motion.set_direction(dir)
