@@ -37,6 +37,8 @@ class Blinky(Ghost):
         return self.state_name
 
     def set_state(self, state: int) -> None:
+        if state == self.state_name:
+            return
         if state == State.SCATTER:
             self.__state = self.scatter
         elif state == State.CHASE:
