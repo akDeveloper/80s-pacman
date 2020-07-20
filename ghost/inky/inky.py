@@ -4,7 +4,6 @@ from ghost.behaviour.chase.chase_bashful import ChaseBashful
 from ghost.behaviour.scatter.scatter import Scatter
 from pygame import Rect
 from ghost.state import State
-from ghost.behaviour.behaviour import Behaviour
 from pacman import Pacman
 from pygame.sprite import Group
 from ghost.blinky.blinky import Blinky
@@ -28,7 +27,7 @@ class Inky(Ghost):
         self.scatter = Scatter(self, self.SCATTER_CORNER)
         self.in_house = InHouse(self)
         self.motion.set_direction(-2)
-        self.__state = self.in_house
+        self.state = self.in_house
         self.state_name = State.IN_HOUSE
 
     def get_speed(self) -> int:
@@ -36,19 +35,3 @@ class Inky(Ghost):
 
     def get_animator(self) -> InkyAnimator:
         return InkyAnimator(self.factory)
-
-    def get_state(self) -> Behaviour:
-        return self.__state
-
-    def get_state_name(self) -> str:
-        return self.state_name
-
-    def set_state(self, state: int) -> None:
-        if state == self.state_name:
-            return
-        if state == State.SCATTER:
-            self.__state = self.scatter
-        elif state == State.CHASE:
-            self.__state = self.chase
-        self.state_name = state
-        self.state_changed = True

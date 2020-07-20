@@ -4,6 +4,7 @@ from pygame.sprite import Sprite
 from factory.ghost_image_factory import GhostImageFactory
 from ghost.method_not_implemented import MethodNotImplemented
 from ghost.state import State
+from ghost.behaviour.behaviour import Behaviour
 
 
 class Ghost(Sprite):
@@ -28,17 +29,13 @@ class Ghost(Sprite):
         self.doors = groups[3]
         self.motion = Motion(self.col, self.get_speed(), platforms)
         self.state_changed = False
+        self.state = None
+        self.state_name = None
 
     def kill(self):
         self.col.kill()
         self.loc.kill()
         super().kill()
-
-    def set_state(self, state: int):
-        raise MethodNotImplemented("Implement `set_state` method")
-
-    def get_state():
-        raise MethodNotImplemented("Implement `get_state` method")
 
     def get_speed(self):
         raise MethodNotImplemented("Implement `get_speed` method")
@@ -46,8 +43,21 @@ class Ghost(Sprite):
     def get_animator(self):
         raise MethodNotImplemented("Implement `get_factory` method")
 
+    def get_state(self) -> Behaviour:
+        return self.state
+
     def get_state_name(self) -> str:
-        raise MethodNotImplemented("Implement `get_state_name` method")
+        return self.state_name
+
+    def set_state(self, state: int) -> None:
+        if state == self.state_name:
+            return
+        if state == State.SCATTER:
+            self.state = self.scatter
+        elif state == State.CHASE:
+            self.state = self.chase
+        self.state_name = state
+        self.state_changed = True
 
     def update(self, time):
         if self.pacman.alive is False:
