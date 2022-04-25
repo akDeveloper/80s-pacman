@@ -29,3 +29,9 @@ Windows:
 ## WIP Demo
 
 ![Pacman Remake Demo](pacman.gif)
+
+## Credits
+
+Sprites from [Spriter Resources](https://web.archive.org/web/20210304222346/https://www.spriters-resource.com/arcade/pacman/)
+
+Sounds from [ClassicGaming](https://web.archive.org/web/20211004132803/https://www.classicgaming.cc/classics/pac-man/sounds)
